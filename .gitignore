@@ -1,0 +1,7 @@
+# Vova
+.vs/
+.idea/
+.vscode/
+bin/
+obj/
+*.user
