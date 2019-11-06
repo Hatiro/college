@@ -13,22 +13,36 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.If not, see https://www.gnu.org/licenses/.
 
+using System;
+using System.IO;
+using System.Text;
+
 namespace Task3
 {
     internal static class SubTask1
     {
-        internal static void Run(int[,] mas)
+        private static readonly Random Random = new Random();
+
+        internal static void Run(int dim0, int dim1)
         {
-            int count = 0;
-            for (int i = 0; i < mas.GetLength(0); i++)
+            Console.WriteLine("Array");
+
+            using (var arrayWriter = new StreamWriter(Program.PathToFile, false, Encoding.UTF8))
             {
-                for (int j = 0; j < mas.GetLength(1); i++)
+                for (var i = 0; i < dim0; i++, Console.WriteLine())
                 {
-                    var current = mas[i, j];
+                    Span<int> localMas = stackalloc int[dim1];
+                    for (var j = 0; j < dim1; j++)
+                    {
+                        Console.Write("{0,5}", localMas[j] = Random.Next(-100, 101));
 
-                    if (i > 0 && mas[i - 1, j] < current)
-                        continue;
-
+                        if (j < localMas.Length - 1)
+                            arrayWriter.Write("{0} ", localMas[j]);
+                        else if (i < dim0 - 1)
+                            arrayWriter.WriteLine(localMas[j]);
+                        else
+                            arrayWriter.Write(localMas[j]);
+                    }
                 }
             }
         }

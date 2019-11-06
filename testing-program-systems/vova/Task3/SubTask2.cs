@@ -13,13 +13,76 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.If not, see https://www.gnu.org/licenses/.
 
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+
 namespace Task3
 {
     internal static class SubTask2
     {
-        internal static void Run(int[,] mas)
+        internal static void Run(int dim0, int dim1)
         {
-            
+            int sumOfModulesOfItemsAboveMainDiagonal = 0, countOfLocalMins = 0;
+            Span<int> previousLine = stackalloc int[dim1];
+
+            using (var arrayReader = new StreamReader(Program.PathToFile, Encoding.UTF8))
+            {
+                string line = arrayReader.ReadLine();
+                for (int i = 0; line != null; line = arrayReader.ReadLine(), Console.WriteLine(), i++)
+                {
+                    int[] separated = line.Split(' ').Select(int.Parse).ToArray();
+
+                    for (int j = 0; j < dim1; j++)
+                    {
+                        var current = separated[j];
+
+                        Console.Write("{0,5}", current);
+
+                        if (i > 0 && mas[i - 1, j] >= current ||
+                            i < dim0 - 1 && mas[i + 1, j] >= current ||
+                            j > 0 && mas[i, j - 1] >= current ||
+                            j < dim1 - 1 && mas[i, j + 1] >= current)
+                            continue;
+
+                        countOfLocalMins++;
+
+                        Console.Write("{0,5}", mas[i, j] = separated[j]);
+                    }
+                }
+            }
+
+            CountLocalMins(mas);
+            SumOfModulesOfItemsAboveMainDiagonal(mas);
+        }
+
+        private static void CountLocalMins(int[,] mas)
+        {
+            int count = 0, dim1 = mas.GetLength(0), dim2 = mas.GetLength(1);
+
+            for (int i = 0; i < dim1; i++)
+            {
+                for (int j = 0; j < dim2; i++)
+                {
+                    var current = mas[i, j];
+
+                    if (i > 0 && mas[i - 1, j] >= current ||
+                        i < dim1 - 1 && mas[i + 1, j] >= current ||
+                        j > 0 && mas[i, j - 1] >= current ||
+                        j < dim2 - 1 && mas[i, j + 1] >= current)
+                        continue;
+
+                    count++;
+                }
+            }
+
+            Console.WriteLine($"Count of local mins: {count}");
+        }
+
+        private static void SumOfModulesOfItemsAboveMainDiagonal(int[,] mas)
+        {
+
         }
     }
 }

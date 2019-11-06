@@ -13,26 +13,14 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.If not, see https://www.gnu.org/licenses/.
 
-using System;
-
 namespace Task3
 {
     internal static class Program
     {
-        private static readonly Random Random = new Random();
-        
+        internal const string PathToFile = "myfile2.txt";
+
         private static void Main()
         {
-            var mas = new int[13, 13];
-            
-            for (var i = 0; i < mas.GetLength(1); i++)
-            {
-                for (var j = 0; j < mas.GetLength(2); j++)
-                {
-                    mas[i, j] = Random.Next(-100, 101);
-                }
-            }
-            
             
         }
     }
