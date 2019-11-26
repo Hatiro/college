@@ -31,6 +31,7 @@ namespace Task3
             {
                 for (var i = 0; i < dim0; i++, Console.WriteLine())
                 {
+                    // ReSharper disable once StackAllocInsideLoop
                     Span<int> localMas = stackalloc int[dim1];
                     for (var j = 0; j < dim1; j++)
                     {

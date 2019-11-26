@@ -7,11 +7,11 @@
 
 //    This program is distributed in the hope that it will be useful,
 //    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 //    GNU General Public License for more details.
 
 //    You should have received a copy of the GNU General Public License
-//    along with this program.If not, see https://www.gnu.org/licenses/.
+//    along with this program. If not, see https://www.gnu.org/licenses/.
 
 using System;
 using System.IO;
@@ -22,67 +22,59 @@ namespace Task3
 {
     internal static class SubTask2
     {
-        internal static void Run(int dim0, int dim1)
+        internal static void Run(int length)
         {
             int sumOfModulesOfItemsAboveMainDiagonal = 0, countOfLocalMins = 0;
-            Span<int> previousLine = stackalloc int[dim1];
+            Span<int> previousLine1 = stackalloc int[length],
+                previousLine2 = stackalloc int[length];
 
             using (var arrayReader = new StreamReader(Program.PathToFile, Encoding.UTF8))
             {
-                string line = arrayReader.ReadLine();
-                for (int i = 0; line != null; line = arrayReader.ReadLine(), Console.WriteLine(), i++)
+                var line = arrayReader.ReadLine();
+                for (var i = 0; line != null; line = arrayReader.ReadLine(), Console.WriteLine(), i++)
                 {
-                    int[] separated = line.Split(' ').Select(int.Parse).ToArray();
+                    var currentLine = line.Split(' ').Select(int.Parse).ToArray().AsSpan();
 
-                    for (int j = 0; j < dim1; j++)
+                    for (var j = 0; j < length; j++)
                     {
-                        var current = separated[j];
+                        var current = currentLine[j];
 
                         Console.Write("{0,5}", current);
 
-                        if (i > 0 && mas[i - 1, j] >= current ||
-                            i < dim0 - 1 && mas[i + 1, j] >= current ||
-                            j > 0 && mas[i, j - 1] >= current ||
-                            j < dim1 - 1 && mas[i, j + 1] >= current)
+                        if (j > i)
+                            sumOfModulesOfItemsAboveMainDiagonal += Math.Abs(current);
+
+                        if (i == 0)
                             continue;
 
-                        countOfLocalMins++;
+                        var itemAbove = previousLine1[j];
 
-                        Console.Write("{0,5}", mas[i, j] = separated[j]);
+                        if (itemAbove < current &&
+                            (j == 0 || itemAbove < previousLine1[j - 1]) &&
+                            (j == length - 1 || itemAbove < previousLine1[j + 1]) &&
+                            (i == 1 || itemAbove < previousLine2[j]))
+                        {
+                            countOfLocalMins++;
+                        }
+
+                        if (i == length - 1 &&
+                            (j == 0 || current < currentLine[j - 1]) &&
+                            (j == length - 1 || current < currentLine[j + 1]) &&
+                            current < itemAbove)
+                        {
+                            countOfLocalMins++;
+                        }
                     }
+                    
+                    if (i != 0)
+                        previousLine1.CopyTo(previousLine2);
+                    currentLine.CopyTo(previousLine1);
                 }
             }
-
-            CountLocalMins(mas);
-            SumOfModulesOfItemsAboveMainDiagonal(mas);
-        }
-
-        private static void CountLocalMins(int[,] mas)
-        {
-            int count = 0, dim1 = mas.GetLength(0), dim2 = mas.GetLength(1);
-
-            for (int i = 0; i < dim1; i++)
-            {
-                for (int j = 0; j < dim2; i++)
-                {
-                    var current = mas[i, j];
-
-                    if (i > 0 && mas[i - 1, j] >= current ||
-                        i < dim1 - 1 && mas[i + 1, j] >= current ||
-                        j > 0 && mas[i, j - 1] >= current ||
-                        j < dim2 - 1 && mas[i, j + 1] >= current)
-                        continue;
-
-                    count++;
-                }
-            }
-
-            Console.WriteLine($"Count of local mins: {count}");
-        }
-
-        private static void SumOfModulesOfItemsAboveMainDiagonal(int[,] mas)
-        {
-
+            
+            Console.WriteLine("The sum of absolute values of items that are placed above the main diagonal is {0}",
+                sumOfModulesOfItemsAboveMainDiagonal);
+            Console.WriteLine("The count of local mins: {0}", countOfLocalMins);
         }
     }
 }
