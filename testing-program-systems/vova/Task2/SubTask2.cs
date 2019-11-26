@@ -24,7 +24,7 @@ namespace Task2
     {
         internal static void Run()
         {
-            var text = File.ReadAllText(Program.FilePath, Encoding.UTF8);
+            var text = File.ReadAllText(Program.PathToFile, Encoding.UTF8);
             var nums = text.Split(' ').Select(int.Parse).Select(Math.Abs).ToArray();
 
             Console.ForegroundColor = ConsoleColor.Blue;

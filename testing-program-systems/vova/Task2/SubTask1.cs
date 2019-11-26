@@ -52,7 +52,7 @@ namespace Task2
             }
             Console.ResetColor();
 
-            using (var fileWriter = new StreamWriter(Program.FilePath, false, Encoding.UTF8))
+            using (var fileWriter = new StreamWriter(Program.PathToFile, false, Encoding.UTF8))
             {
                 for (int i = 0; i < n; i++)
                 {

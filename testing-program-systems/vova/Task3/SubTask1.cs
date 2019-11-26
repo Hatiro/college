@@ -23,23 +23,23 @@ namespace Task3
     {
         private static readonly Random Random = new Random();
 
-        internal static void Run(int dim0, int dim1)
+        internal static void Run(int length)
         {
             Console.WriteLine("Array");
 
             using (var arrayWriter = new StreamWriter(Program.PathToFile, false, Encoding.UTF8))
             {
-                for (var i = 0; i < dim0; i++, Console.WriteLine())
+                for (var i = 0; i < length; i++, Console.WriteLine())
                 {
                     // ReSharper disable once StackAllocInsideLoop
-                    Span<int> localMas = stackalloc int[dim1];
-                    for (var j = 0; j < dim1; j++)
+                    Span<int> localMas = stackalloc int[length];
+                    for (var j = 0; j < length; j++)
                     {
                         Console.Write("{0,5}", localMas[j] = Random.Next(-100, 101));
 
                         if (j < localMas.Length - 1)
                             arrayWriter.Write("{0} ", localMas[j]);
-                        else if (i < dim0 - 1)
+                        else if (i < length - 1)
                             arrayWriter.WriteLine(localMas[j]);
                         else
                             arrayWriter.Write(localMas[j]);

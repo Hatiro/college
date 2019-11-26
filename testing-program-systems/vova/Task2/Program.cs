@@ -14,13 +14,15 @@
 //    along with this program. If not, see https://www.gnu.org/licenses/.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Task2
 {
     internal static class Program
     {
-        public const string FilePath = "myfile.txt";
+        public const string PathToFile = "myfile.txt";
 
+        [SuppressMessage("ReSharper", "SwitchStatementMissingSomeCases")]
         private static void Main()
         {
             Console.Write("Input program part: ");
