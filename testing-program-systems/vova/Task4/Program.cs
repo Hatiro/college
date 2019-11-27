@@ -21,7 +21,33 @@ namespace Task4
     {
         private static void Main()
         {
-            Console.WriteLine("Hello World!");
+            int a, b;
+            
+            Console.Write("Input a: ");
+            while (!int.TryParse(Console.ReadLine(), out a))
+                Console.Write("Invalid input, please retry: ");
+            
+            Console.Write("Input b: ");
+            while (!int.TryParse(Console.ReadLine(), out b) || b < a)
+                Console.Write("Invalid input, please retry: ");
+
+            for (var p = a; p <= b; p++)
+            {
+                if (p % 4 != 1)
+                    continue;
+
+                for (var m = 0; m < p; m++)
+                    if ((m * m + 1) % p == 0)
+                    {
+                        Console.WriteLine($"{$"p = {p}",-8}{$"m = {m}",-8}({m} * {m} + 1) % {p} == 0");
+                        goto Ok;
+                    }
+
+                Console.WriteLine("The hypothesis is incorrect.");
+                break;
+
+                Ok: ;
+            }
         }
     }
 }
