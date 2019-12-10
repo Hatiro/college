@@ -113,7 +113,6 @@
             this.loadingStatus.Size = new System.Drawing.Size(259, 20);
             this.loadingStatus.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.loadingStatus.TabIndex = 4;
-            this.loadingStatus.Value = 10;
             // 
             // boxFirst
             // 
